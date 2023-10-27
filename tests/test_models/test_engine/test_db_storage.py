@@ -120,3 +120,34 @@ class TestSaveMethod(unittest.TestCase):
 
         self.assertIs(s1, new_s1)
         self.assertIs(s2, new_s2)
+
+
+@unittest.skipUnless(os.getenv("HBNB_TYPE_STORAGE") == "db", "For db Storage")
+class TestGetMethod(unittest.TestCase):
+
+    def testGetMethodWithDB(self):
+        s1 = State(name="Lagos")
+        s2 = State(name="Nairobi")
+
+        storage.new(s1)
+        storage.save()
+        storage.new(s2)
+        storage.save()
+        new_s1 = storage.get(State, s1.id)
+        new_s2 = storage.get(State, s2.id)
+
+        self.assertIs(s1, new_s1)
+        self.assertIs(s2, new_s2)
+
+    def testGetMethodWithNotPresentId(self):
+        self.assertIsNone(storage.get(State, "NotId"))
+
+
+@unittest.skipUnless(os.getenv("HBNB_TYPE_STORAGE") == "db", "For db Storage")
+class TestCountMethod(unittest.TestCase):
+
+    def testCountMethodWithNoArg(self):
+        self.assertEqual(storage.count(), len(storage.all()))
+
+    def testCountMethodWithClass(self):
+        self.assertEqual(storage.count(State), len(storage.all(State)))

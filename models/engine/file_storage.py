@@ -70,3 +70,15 @@ class FileStorage:
     def close(self):
         """Calls the reload method."""
         self.reload()
+
+    def get(self, cls, id):
+        """Returns the object based on the class and its ID,
+        or None if not found"""
+        key = f"{cls.__name__}.{id}"
+        return type(self).__objects.get(key, None)
+
+    def count(self, cls=None):
+        """Returns the number of objects in storage matching the given class."""
+        if cls:
+            return len(self.all(cls))
+        return len(self.all())

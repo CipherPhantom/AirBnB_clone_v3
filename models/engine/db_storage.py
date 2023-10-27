@@ -81,3 +81,21 @@ class DBStorage:
     def close(self):
         """Disposes the current Session."""
         self.__session.close()
+
+    def get(self, cls, id):
+        """Returns the object based on the class and its ID,
+        or None if not found"""
+        return self.__session.query(cls).filter_by(id=id).first()
+
+    def count(self, cls=None):
+        """Returns the number of objects in storage matching the
+        given class."""
+        if cls:
+            if type(cls) == str:
+                cls = eval(cls)
+            return len(self.__session.query(cls).all())
+
+        count = 0
+        for model in MODELS:
+            count += len(self.__session.query(model).all())
+        return count
