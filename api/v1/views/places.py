@@ -6,11 +6,10 @@ from api.v1.views import app_views
 from flask import jsonify, request, abort
 from models import storage
 from models.place import Place
+from models.city import City
 
 
-@app_views.route(
-        "/cities/<city_id>/places",
-        strict_slashes=False, methods=["GET", "POST"])
+@app_views.route("/cities/<city_id>/places", methods=["GET", "POST"])
 def city_places(city_id):
     """Retrieves the list of all Place objects of a City and
     Creates a Place object"""
@@ -36,9 +35,7 @@ def city_places(city_id):
         return jsonify(place.to_dict()), 201
 
 
-@app_views.route(
-        "places/<place_id>",
-        strict_slashes=False, methods=["GET", "DELETE", "PUT"])
+@app_views.route("places/<place_id>", methods=["GET", "DELETE", "PUT"])
 def place(place_id):
     """Retrieves, Deletes and Updates a Place object"""
     place = storage.get("Place", place_id)

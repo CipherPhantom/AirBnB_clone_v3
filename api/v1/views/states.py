@@ -8,7 +8,7 @@ from models import storage
 from models.state import State
 
 
-@app_views.route("/states", strict_slashes=False, methods=["GET", "POST"])
+@app_views.route("/states", methods=["GET", "POST"])
 def states():
     """Return the list of states and Creates a State"""
     if request.method == "GET":
@@ -25,9 +25,7 @@ def states():
         return jsonify(state.to_dict()), 201
 
 
-@app_views.route(
-        "/states/<state_id>",
-        strict_slashes=False, methods=["GET", "DELETE", "PUT"])
+@app_views.route("/states/<state_id>", methods=["GET", "DELETE", "PUT"])
 def state(state_id):
     """Deletes, Retrieves and Updates a State"""
     state = storage.get("State", state_id)

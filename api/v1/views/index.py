@@ -5,6 +5,12 @@ Creates views
 from api.v1.views import app_views
 from flask import jsonify
 from models import storage
+from models.city import City
+from models.user import User
+from models.place import Place
+from models.state import State
+from models.review import Review
+from models.amenity import Amenity
 
 
 objects = {
@@ -17,13 +23,13 @@ objects = {
         }
 
 
-@app_views.route("/status", strict_slashes=False, methods=["GET"])
+@app_views.route("/status", methods=["GET"])
 def status():
     """Return json with status info"""
     return jsonify({"status": "OK"})
 
 
-@app_views.route("/stats", strict_slashes=False, methods=["GET"])
+@app_views.route("/stats", methods=["GET"])
 def stats():
     """Returns the number of each objects by type"""
     stats = {}

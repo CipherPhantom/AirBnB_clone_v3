@@ -8,9 +8,7 @@ from models import storage
 from models.amenity import Amenity
 
 
-@app_views.route(
-        "/amenities",
-        strict_slashes=False, methods=["GET", "POST"])
+@app_views.route("/amenities", methods=["GET", "POST"])
 def amenities():
     """Retrieves the list of all Amenity objects and
     Creates a new Amenity object"""
@@ -30,9 +28,7 @@ def amenities():
         return jsonify(amenity.to_dict()), 201
 
 
-@app_views.route(
-        "/amenities/<amenity_id>",
-        strict_slashes=False, methods=["GET", "DELETE", "PUT"])
+@app_views.route("/amenities/<amenity_id>", methods=["GET", "DELETE", "PUT"])
 def amenity(amenity_id):
     """Retrieves, Deletes and Updates a Amenity object"""
     amenity = storage.get("Amenity", amenity_id)

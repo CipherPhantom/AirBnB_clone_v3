@@ -6,11 +6,10 @@ from api.v1.views import app_views
 from flask import jsonify, request, abort
 from models import storage
 from models.review import Review
+from models.place import Place
 
 
-@app_views.route(
-        "places/<place_id>/reviews",
-        strict_slashed=False, methods=["GET", "POST"])
+@app_views.route("places/<place_id>/reviews", methods=["GET", "POST"])
 def place_reviews(place_id):
     """Retrieves the list of all Review objects of a Place
     and Creates a Review object"""
@@ -36,9 +35,7 @@ def place_reviews(place_id):
         return jsonify(review.to_dict()), 201
 
 
-@app_views.route(
-        "/reviews/<review_id>",
-        strict_slashes=False, methods=["GET", "DELETE", "PUT"])
+@app_views.route("/reviews/<review_id>", methods=["GET", "DELETE", "PUT"])
 def review(review_id):
     """Retrieves, Deletes and Updates a Review object"""
     review = storage.get("Review", review_id)

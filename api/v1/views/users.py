@@ -8,7 +8,7 @@ from models import storage
 from models.user import User
 
 
-@app_views.route("/users", strict_slashes=False, methods=["GET", "POST"])
+@app_views.route("/users", methods=["GET", "POST"])
 def users():
     """Retrieves the list of all User objects and
     Creates a User object"""
@@ -28,9 +28,7 @@ def users():
         return jsonify(user.to_dict()), 201
 
 
-@app_views.route(
-        "/users/<user_id>",
-        strict_slashes=False, methods=["GET", "DELETE", "PUT"])
+@app_views.route("/users/<user_id>", methods=["GET", "DELETE", "PUT"])
 def user(user_id):
     """Retrieves, Deletes and Updates a User object"""
     user = storage.get("User", user_id)
