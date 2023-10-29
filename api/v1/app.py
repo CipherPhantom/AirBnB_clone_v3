@@ -24,10 +24,10 @@ def page_not_found(error):
 
 
 if __name__ == "__main__":
-    host = "0.0.0.0"
-    port = 5000
-    if os.getenv("HBNB_API_HOST"):
-        host = os.getenv("HBNB_API_HOST")
-    if os.getenv("HBNB_API_PORT"):
-        port = os.getenv("HBNB_API_PORT")
+    host = os.getenv("HBNB_API_HOST")
+    port = os.getenv("HBNB_API_PORT")
+    if not host:
+        host = "0.0.0.0"
+    if not port:
+        port = 5000
     app.run(host=host, port=port, threaded=True)
