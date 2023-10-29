@@ -10,7 +10,8 @@ from models.user import User
 
 @app_views.route("/users", strict_slashes=False, methods=["GET", "POST"])
 def users():
-    """Retrieves the list of all User objects"""
+    """Retrieves the list of all User objects and
+    Creates a User object"""
     if request.method == "GET":
         users = [user.to_dict() for user in storage.all("User").values()]
         return jsonify(users)

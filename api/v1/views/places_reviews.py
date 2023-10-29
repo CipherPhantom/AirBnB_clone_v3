@@ -12,7 +12,8 @@ from models.review import Review
         "places/<place_id>/reviews",
         strict_slashed=False, methods=["GET", "POST"])
 def place_reviews(place_id):
-    """Retrieves the list of all Review objects of a Place"""
+    """Retrieves the list of all Review objects of a Place
+    and Creates a Review object"""
     place = storage.get("Place", place_id)
     if not place:
         abort(404)
