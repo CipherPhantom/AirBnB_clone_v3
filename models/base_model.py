@@ -66,4 +66,4 @@ class BaseModel:
         if "_sa_instance_state" in attributes:
             del attributes["_sa_instance_state"]
 
-        return f"[{type(self).__name__}] ({self.id}) {attributes}"
+        return "[{}] ({}) {}".format(type(self).__name__, self.id, attributes)
