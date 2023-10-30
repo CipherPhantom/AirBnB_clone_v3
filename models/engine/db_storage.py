@@ -43,7 +43,7 @@ class DBStorage:
         """Queries current database session"""
         objects = {}
         if cls:
-            if type(cls) == str:
+            if type(cls) is str:
                 cls = eval(cls)
             query = self.__session.query(cls).all()
             for obj in query:
@@ -85,7 +85,7 @@ class DBStorage:
     def get(self, cls, id):
         """Returns the object based on the class and its ID,
         or None if not found"""
-        if type(cls) == str:
+        if type(cls) is str:
             cls = eval(cls)
         return self.__session.query(cls).filter_by(id=id).first()
 
@@ -93,7 +93,7 @@ class DBStorage:
         """Returns the number of objects in storage matching the
         given class."""
         if cls:
-            if type(cls) == str:
+            if type(cls) is str:
                 cls = eval(cls)
             return len(self.__session.query(cls).all())
 

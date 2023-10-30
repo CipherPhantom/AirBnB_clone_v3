@@ -14,14 +14,14 @@ def place_reviews(place_id):
     """Retrieves the list of all Review objects of a Place
     and Creates a Review object"""
     place = storage.get("Place", place_id)
-    if not place:
+    if place is None:
         abort(404)
     if request.method == "GET":
         reviews = [review.to_dict() for review in place.reviews]
         return jsonify(reviews)
     if request.method == "POST":
         data = request.get_json()
-        if not data or type(data) != dict:
+        if data is None:
             abort(400, "Not a JSON")
         if "user_id" not in data:
             abort(400, "Missing user_id")
@@ -39,7 +39,7 @@ def place_reviews(place_id):
 def review(review_id):
     """Retrieves, Deletes and Updates a Review object"""
     review = storage.get("Review", review_id)
-    if not review:
+    if review is None:
         abort(404)
     if request.method == "GET":
         return jsonify(review.to_dict())
@@ -49,7 +49,7 @@ def review(review_id):
         return jsonify({}), 200
     if request.method == "PUT":
         data = request.get_json()
-        if not data or type(data) != dict:
+        if data is None:
             abort(400, "Not a JSON")
         for key, value in data.items():
             if key not in \

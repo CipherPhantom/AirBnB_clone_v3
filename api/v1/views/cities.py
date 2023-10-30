@@ -14,14 +14,14 @@ def state_cities(state_id):
     """Retrieves the list of all City objects of a State and
     Creates a City object"""
     state = storage.get("State", state_id)
-    if not state:
+    if state is None:
         abort(404)
     if request.method == "GET":
         cities = [city.to_dict() for city in state.cities]
         return jsonify(cities)
     if request.method == "POST":
         data = request.get_json()
-        if not data or type(data) != dict:
+        if data is None:
             abort(400, "Not a JSON")
         if "name" not in data:
             abort(400, "Missing name")
@@ -35,7 +35,7 @@ def state_cities(state_id):
 def city(city_id):
     """Retrieves, Updates and Deletes a City object"""
     city = storage.get("City", city_id)
-    if not city:
+    if city is None:
         abort(404)
     if request.method == "GET":
         return jsonify(city.to_dict())
@@ -45,7 +45,7 @@ def city(city_id):
         return jsonify({}), 200
     if request.method == "PUT":
         data = request.get_json()
-        if not data or type(data) != dict:
+        if data is None:
             abort(400, "Not a JSON")
         for key, value in data.items():
             if key not in ["id", "state_id", "created_at", "updated_at"]:

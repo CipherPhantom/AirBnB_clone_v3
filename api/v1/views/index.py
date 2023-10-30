@@ -11,7 +11,6 @@ from models.review import Review
 from models.amenity import Amenity
 
 
-
 @app_views.route("/status", methods=["GET"])
 def status():
     """Return json with status info"""

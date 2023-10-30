@@ -14,14 +14,14 @@ def city_places(city_id):
     """Retrieves the list of all Place objects of a City and
     Creates a Place object"""
     city = storage.get("City", city_id)
-    if not city:
+    if city is None:
         abort(404)
     if request.method == "GET":
         places = [place.to_dict() for place in city.places]
         return jsonify(places)
     if request.method == "POST":
         data = request.get_json()
-        if not data or type(data) != dict:
+        if data is None:
             abort(400, "Not a JSON")
         if "user_id" not in data:
             abort(400, "Missing user_id")
@@ -39,7 +39,7 @@ def city_places(city_id):
 def place(place_id):
     """Retrieves, Deletes and Updates a Place object"""
     place = storage.get("Place", place_id)
-    if not place:
+    if place is None:
         abort(404)
     if request.method == "GET":
         return jsonify(place.to_dict())
@@ -49,7 +49,7 @@ def place(place_id):
         return jsonify({}), 200
     if request.methos == "PUT":
         data = request.get_json()
-        if not data or type(data) != dict:
+        if data is None:
             abort(400, "Not a JSON")
         for key, value in data.items():
             if key not in \

@@ -17,7 +17,7 @@ def users():
         return jsonify(users)
     if request.method == "POST":
         data = request.get_json()
-        if not data or type(data) != dict:
+        if data is None:
             abort(400, "Not a JSON")
         if "email" not in data:
             abort(400, "Missing email")
@@ -32,7 +32,7 @@ def users():
 def user(user_id):
     """Retrieves, Deletes and Updates a User object"""
     user = storage.get("User", user_id)
-    if not user:
+    if user is None:
         abort(404)
     if request.method == "GET":
         return jsonify(user.to_dict())
@@ -42,7 +42,7 @@ def user(user_id):
         return jsonify({}), 200
     if request.method == "PUT":
         data = request.get_json()
-        if not data or type(data) != dict:
+        if data is None:
             abort(400, "Not a JSON")
         for key, value in data.items():
             if key not in ["id", "email", "created_at", "updated_at"]:

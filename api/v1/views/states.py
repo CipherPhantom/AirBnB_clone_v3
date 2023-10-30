@@ -16,7 +16,7 @@ def states():
         return jsonify(states)
     if request.method == "POST":
         data = request.get_json()
-        if not data or type(data) != dict:
+        if data is None:
             abort(400, "Not a JSON")
         if "name" not in data:
             abort(400, "Missing name")
@@ -29,7 +29,7 @@ def states():
 def state(state_id):
     """Deletes, Retrieves and Updates a State"""
     state = storage.get("State", state_id)
-    if not state:
+    if state is None:
         abort(404)
     if request.method == "GET":
         return jsonify(state.to_dict())
@@ -39,7 +39,7 @@ def state(state_id):
         return jsonify({}), 200
     if request.method == "PUT":
         data = request.get_json()
-        if not data and type(data) != dict:
+        if data is None:
             abort(400, "Not a JSON")
         for key, value in data.items():
             if key not in ["id", "created_at", "updated_at"]:

@@ -19,7 +19,7 @@ def amenities():
         return jsonify(amenities)
     if request.method == "POST":
         data = request.get_json()
-        if not data or type(data) != dict:
+        if data is None:
             abort(400, "Not a JSON")
         if "name" not in data:
             abort(400, "Missing name")
@@ -32,7 +32,7 @@ def amenities():
 def amenity(amenity_id):
     """Retrieves, Deletes and Updates a Amenity object"""
     amenity = storage.get("Amenity", amenity_id)
-    if not amenity:
+    if amenity is None:
         abort(404)
     if request.method == "GET":
         return jsonify(amenity.to_dict())
@@ -42,7 +42,7 @@ def amenity(amenity_id):
         return jsonify({}), 200
     if request.method == "PUT":
         data = request.get_json()
-        if not data or type(data) != dict:
+        if data is None:
             abort(400, "Not a JSON")
         for key, value in data.items():
             if key not in ["id", "created_at", "updated_at"]:
