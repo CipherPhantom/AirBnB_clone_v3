@@ -27,7 +27,7 @@ def users():
             abort(400, "Missing password")
         user = User(**data)
         user.save()
-        return make_reponse(jsonify(user.to_dict()), 201)
+        return make_response(jsonify(user.to_dict()), 201)
 
 
 @app_views.route("/users/<user_id>", methods=["GET", "DELETE", "PUT"])
