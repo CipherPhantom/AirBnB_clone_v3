@@ -13,7 +13,9 @@ def users():
     """Retrieves the list of all User objects and
     Creates a User object"""
     if request.method == "GET":
-        users = [user.to_dict() for user in storage.all(User).values()]
+        users = []
+        for user in storage.all(User).values():
+            user.append(user.to_dict())
         return jsonify(users)
     if request.method == "POST":
         data = request.get_json()
