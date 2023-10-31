@@ -5,6 +5,7 @@ import models
 from models.base_model import BaseModel, Base
 from sqlalchemy import Column, String
 from sqlalchemy.orm import relationship
+from hashlib import md5
 
 
 class User(BaseModel, Base):
@@ -37,3 +38,9 @@ class User(BaseModel, Base):
             """Gets the attribute"""
             reviews = models.storage.all("Review").values()
             return [review for review in reviews if review.user_id == self.id]
+
+    def __setattr__(self, attr, value):
+        """Sets attributes"""
+        if attr == "password":
+            value = md5(value.encode('utf-8')).hexdigest()
+        super().__setattr__(attr, value)

@@ -5,6 +5,8 @@ import models
 from datetime import datetime
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, String, DateTime
+from os import getenv
+
 
 Base = declarative_base()
 
@@ -48,6 +50,9 @@ class BaseModel:
 
         if "_sa_instance_state" in attributes:
             del attributes["_sa_instance_state"]
+
+        if getenv("HBNB_TYPE_STORAGE") == "db" and "password" in attributes:
+            del attributes["password"]
 
         for key, value in attributes.items():
             if isinstance(value, datetime):

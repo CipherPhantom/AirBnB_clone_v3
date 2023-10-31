@@ -30,6 +30,7 @@ def place_reviews(place_id):
             abort(404)
         if "text" not in data:
             abort(400, "Missing text")
+        data["place_id"] = place_id
         review = Review(**data)
         review.save()
         return jsonify(review.to_dict()), 201
