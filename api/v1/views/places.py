@@ -26,7 +26,7 @@ def city_places(city_id):
         if "user_id" not in data:
             abort(400, "Missing user_id")
         user = storage.get("User", data.get("user_id"))
-        if not user:
+        if user is None:
             abort(404)
         if "name" not in data:
             abort(400, "Missing name")
@@ -48,7 +48,7 @@ def place(place_id):
         storage.delete(place)
         storage.save()
         return jsonify({}), 200
-    if request.methos == "PUT":
+    if request.method == "PUT":
         data = request.get_json()
         if data is None:
             abort(400, "Not a JSON")
