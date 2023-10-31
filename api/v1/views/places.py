@@ -58,3 +58,54 @@ def place(place_id):
                 setattr(place, key, value)
         storage.save()
         return jsonify(place.to_dict()), 200
+
+
+@app_views.route("/places_search", methods=["POST"])
+def place_search():
+    """Retrieves all Place objects depending of the
+    JSON in the body of the request."""
+    data = request.get_json()
+    if data is None:
+        abort(400, "Not a JSON")
+    state_ids = data.get("states", [])
+    city_ids = data.get("cities", [])
+    amenity_ids = data.get("amenities", [])
+
+    place_objs = []
+    places = []
+    if (state_ids and type(state_ids) is list) or \
+            (city_ids and type(city_ids) is list):
+        for state_id in state_ids:
+            state = storage.get("State", state_id)
+            if state:
+                for city in state.cities:
+                    place_objs.extend(city.places)
+        for city_id in city_ids:
+            city = storage.get("City", city_id)
+            if city:
+                for place in city.places:
+                    if place not in places:
+                        place_objs.append(place)
+    else:
+        place_objs = [place for place in storage.all("Place").values()]
+
+    if amenity_ids and type(amenity_ids) is list:
+
+        if os.getenv("HBNB_TYPE_STORAGE") == "db":
+            amenities = []
+            for amenity_id in amenity_ids:
+                amenity = storage.get("Amenity", amenity_id)
+                if amenity:
+                    amenities.append(amenity)
+            for place in place_objs:
+                if all(amenity in amenities for amenity in place.amenities):
+                    places.append(place.to_dict())
+        else:
+            for place in place_objs:
+                if all(amenity_id in amenity_ids
+                        for amenity_id in place.amenities):
+                    places.append(place.to_dict())
+        return jsonify(places)
+
+    places = [place.to_dict() for place in place_objs]
+    return jsonify(places)
