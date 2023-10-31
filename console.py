@@ -54,7 +54,7 @@ class HBNBCommand(cmd.Cmd):
         for param in params:
             key, value = param.split("=")
             value = eval(value)
-            if type(value) == str:
+            if type(value) is str:
                 value = value.replace("_", " ")
             kwargs[key] = value
         obj = MODELS[class_](**kwargs)
@@ -72,10 +72,10 @@ class HBNBCommand(cmd.Cmd):
             print("** class doesn't exist **")
         elif len(args) < 2:
             print("** instance id missing **")
-        elif f"{args[0]}.{args[1]}" not in storage.all():
+        elif "{}.{}".format(args[0], args[1]) not in storage.all():
             print("** no instance found **")
         else:
-            print(storage.all()[f"{args[0]}.{args[1]}"])
+            print(storage.all()["{}.{}".format(args[0], args[1])])
 
     def do_destroy(self, line):
         """Deletes an instance based on the class name and id"""
@@ -86,10 +86,10 @@ class HBNBCommand(cmd.Cmd):
             print("** class doesn't exist **")
         elif len(args) < 2:
             print("** instance id missing **")
-        elif f"{args[0]}.{args[1]}" not in storage.all():
+        elif "{}.{}".format(args[0], args[1]) not in storage.all():
             print("** no instance found **")
         else:
-            del storage.all()[f"{args[0]}.{args[1]}"]
+            del storage.all()["{}.{}".format(args[0], args[1])]
             storage.save()
 
     def do_all(self, line):
@@ -118,14 +118,14 @@ class HBNBCommand(cmd.Cmd):
             print("** class doesn't exist **")
         elif len(args) < 2:
             print("** instance id missing **")
-        elif f"{args[0]}.{args[1]}" not in storage.all():
+        elif "{}.{}".format(args[0], args[1]) not in storage.all():
             print("** no instance found **")
         elif len(args) < 3:
             print("** attribute name missing **")
         elif len(args) < 4:
             print("** value missing **")
         else:
-            obj = storage.all()[f"{args[0]}.{args[1]}"]
+            obj = storage.all()["{}.{}".format(args[0], args[1])]
             if "{" in args[2]:
                 attrs = " ".join(args[2:]).replace("'", '"')
                 try:
